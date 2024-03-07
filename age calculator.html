@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+<h1>Age Calculator</h1>
+<form id="ageCalculator">
+  <label for="dob">Enter your date of birth:</label>
+  <input type="date" id="dob" name="dob">
+  <label for="time">Enter your time of birth (optional):</label>
+  <input type="time" id="time" name="time">
+  <button type="submit">Calculate Age</button>
+</form>
+
+<script>
+document.getElementById('ageCalculator').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  var dob = moment(document.getElementById('dob').value);
+  var time = document.getElementById('time').value;
+  
+  if (time) {
+    dob = moment(dob.format('YYYY-MM-DD') + 'T' + time);
+  }
+  
+  var today = moment();
+  
+  var years = today.diff(dob, 'years');
+  var months = today.diff(dob, 'months') % 12;
+  var days = today.diff(dob, 'days') % 30;
+  var hours = today.diff(dob, 'hours') % 24;
+  var minutes = today.diff(dob, 'minutes') % 60;
+  var seconds = today.diff(dob, 'seconds') % 60;
+
+  var ageString = "You are " + years + " years, " + months + " months, " + days + " days, " + hours + " hours, " + minutes + " minutes, and " + seconds + " seconds old.";
+
+  alert(ageString);
+
+  // Play success sound effect
+  var sound = new Howl({
+    src: ['https://www.soundjay.com/button/beep-07.wav']
+  });
+  sound.play();
+});
+</script>
+</body>
+</html>
